@@ -1,10 +1,11 @@
 class SessionsController < ApplicationController
   def signup
-    puts SECRET
     user = User.new(email: params[:email], password: params[:password])
     if user.save
       token = encode_user_data({ user_data: user.id })
       render json: { token: token }
+    elsif user.errors.messages[:email][0] == "has already been taken"
+      render json: { message: "email has already been taken" }
     else
       render json: { message: "invalid credentials" }
     end
