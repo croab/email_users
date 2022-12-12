@@ -1,6 +1,7 @@
 class SessionsController < ApplicationController
   def signup
-    user = User.new(email: param[:email], password: password[:password])
+    puts SECRET
+    user = User.new(email: params[:email], password: params[:password])
     if user.save
       token = encode_user_data({ user_data: user.id })
       render json: { token: token }
@@ -10,8 +11,8 @@ class SessionsController < ApplicationController
   end
 
   def login
-    user = User.find_by(email: param[:email])
-    if user && user.password == param[:password]
+    user = User.find_by(email: params[:email])
+    if user && user.password == params[:password]
       token = encode_user_data({ user_data: user.id })
       render json: { token: token }
     else

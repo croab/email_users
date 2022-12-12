@@ -1,7 +1,8 @@
 class ApplicationController < ActionController::API
-  secret=ENV['JWT_SECRET']
+  SECRET = ENV["JWT_SECRET"]
 
   def authenticate
+
     decode_data = decode_user_data(request.headers["token"])
     user_data = decode_data[0]["user_id"] unless !decode_data
     user = User.find(user_data&.id)
